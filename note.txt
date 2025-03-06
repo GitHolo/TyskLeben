@@ -1,0 +1,23 @@
+1. Plan Core Mechanics – Write down how users interact with the game.
+2. Build a Prototype – Start with a simple PHP + MySQL setup, and test user interactions.
+3. Design UI/UX – Create wireframes for a smooth interface.
+4. Develop & Test – Implement features step by step.
+5. Launch & Iterate – Gather feedback, fix bugs, and add new content.
+
+% Core Mechanics
+    - Start menu
+    - Character select
+    - House
+    - Cash
+    - Time
+    - Fridge
+        - Cooking
+    - Bed
+    - Work
+        - Store
+            - Items
+            - Cash register
+            - Orders
+                - People
+            - Ending screen
+    
