@@ -1,0 +1,17 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	background-image: url("../assets/svg/bg.svg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+main {
+	width: 75%;
+	margin: 0 auto;
+	height: 2000px;
+	background-color: white;
+	padding: 40px 20px;
+}
