@@ -1,3 +1,6 @@
+<?php ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);?>
 <!DOCTYPE html>
 <html>
 
@@ -9,7 +12,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="./images/papas-pizzeria.jpg">
 </head>
 
-<body>
+<body style="flex-direction: column; display: flex;">
     <h1>Welcome to Tysk Leben!</h1>
     <div class="login-box">
         <h2>Login</h2>
@@ -55,7 +58,7 @@ if ($conn->connect_error) {
 
 // If the user is already logged in, redirect to their profile page
 if (isset($_SESSION['user_ID'])) {
-    header("Location: index.php?user_ID=me");
+    header("Location: index.php?user_ID=" . $_COOKIE['user_ID']);
     exit();
 }
 
@@ -66,8 +69,8 @@ function set_user_cookie($user_ID)
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ensure both email and password are provided
-    if (isset($_POST['email']) && isset($_POST['password'])) {
-        $email = $_POST['email'];
+    if (isset($_POST['login']) && isset($_POST['password'])) {
+        $email = $_POST['login'];
         $password = $_POST['password'];
         $sql = "SELECT user_ID, email, password FROM login WHERE email = '$email' OR login = '$email'";
         $result = $conn->query($sql);
@@ -79,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_ID'] = $row['user_ID'];
                 $_SESSION['login'] = $row['login'];
                 set_user_cookie($row['user_ID']);
-                header("Location: index.php?user_ID=me");
+                header("Location: index.php?user_ID=" . $_COOKIE['user_ID']);
                 exit();
             } else {
                 echo "<script>alert('Incorrect password');</script>";
@@ -91,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else if (isset($_COOKIE['user_ID'])) {
     $_SESSION['user_ID'] = $_COOKIE['user_ID'];
-    header("Location: index.php?user_ID=me");
+    header("Location: index.php?user_ID=" . $_COOKIE['user_ID']);
     exit();
 }
 
