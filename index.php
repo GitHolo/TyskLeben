@@ -19,6 +19,7 @@ if (!isset($_COOKIE['user_ID'])) {
 <body>
     <main>
         <h1>Welcome</h1>
+        
     </main>
 </body>
 

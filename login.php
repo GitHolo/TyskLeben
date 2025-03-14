@@ -1,6 +1,3 @@
-<?php ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);?>
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +27,7 @@ error_reporting(E_ALL);?>
         </form>
         <br>
         <!-- Button to navigate to the home page -->
-        <form style="justify-content: center; display: flex;" action="index.php" method="post">
+-        <form style="justify-content: center; display: flex;" action="index.php" method="post">
             <input style="width: 40%;" type="submit" value="Home">
         </form>
     </div>
