@@ -21,3 +21,9 @@
                 - People
             - Ending screen
     
+tech:
+    -php
+    -mysql (both php and mysql im using xampp for)
+    - JS (fetchApi)
+    -css (tailwind) for animations
+    -json api from the sql server

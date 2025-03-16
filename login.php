@@ -27,7 +27,7 @@
         </form>
         <br>
         <!-- Button to navigate to the home page -->
--        <form style="justify-content: center; display: flex;" action="index.php" method="post">
+        - <form style="justify-content: center; display: flex;" action="index.php" method="post">
             <input style="width: 40%;" type="submit" value="Home">
         </form>
     </div>
@@ -36,22 +36,7 @@
 </html>
 
 <?php
-// Start the session to track user information
-session_start();
-
-// Database connection parameters
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "htc";
-
-// Create a new connection to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check if the connection was successful
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require "./config.php";
 
 // If the user is already logged in, redirect to their profile page
 if (isset($_SESSION['user_ID'])) {
