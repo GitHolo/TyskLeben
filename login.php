@@ -39,10 +39,7 @@
 require "./config.php";
 
 // If the user is already logged in, redirect to their profile page
-if (isset($_SESSION['user_ID'])) {
-    header("Location: index.php?user_ID=" . $_COOKIE['user_ID']);
-    exit();
-}
+
 
 function set_user_cookie($user_ID)
 {
@@ -64,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_ID'] = $row['user_ID'];
                 $_SESSION['login'] = $row['login'];
                 set_user_cookie($row['user_ID']);
-                header("Location: index.php?user_ID=" . $_COOKIE['user_ID']);
+                header("Location: index.php");
                 exit();
             } else {
                 echo "<script>alert('Incorrect password');</script>";
@@ -76,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else if (isset($_COOKIE['user_ID'])) {
     $_SESSION['user_ID'] = $_COOKIE['user_ID'];
-    header("Location: index.php?user_ID=" . $_COOKIE['user_ID']);
+    header("Location: index.php");
     exit();
 }
 

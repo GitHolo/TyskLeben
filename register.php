@@ -71,22 +71,12 @@
 </html>
 
 <?php
-session_start(); // Start the session to use session variables
+require "config.php";
 
-// Database connection credentials
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "htc";
-
-// Create connection to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check if the connection to the database failed
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+function set_user_cookie($user_ID)
+{
+    setcookie("user_ID", $user_ID, time() + (86400 * 30), "/");
 }
-
 // Check if the request method is POST (form submission)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if all required POST variables are set
@@ -107,11 +97,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $insert_login_sql = "INSERT INTO login (login, email, password) VALUES ('$login', '$email', '$password')";
             if ($conn->query($insert_login_sql) === TRUE) { // If insertion is successful
                 echo "<script>alert('Account created successfully');</script>";
+                // Redirect to login page with the user's ID as a query parameter
+                $check_sql = "SELECT user_ID FROM login WHERE email='$email' OR login='$login'";
+                $check_result = $conn->query($check_sql);
+                $row = $check_result->fetch_assoc(); // Fetch the result row
+                $_SESSION['user_ID'] = $row['user_ID'];
+
+                $_SESSION['login'] = $login;
+                set_user_cookie($row['user_ID']);
+                header("Location: create.php");
+                exit();
             } else { // If there is an error inserting into login table
                 echo "<script>alert('Error creating account');</script>";
             }
         }
     }
+} else if (isset($_COOKIE['user_ID'])) {
+    $_SESSION['user_ID'] = $_COOKIE['user_ID'];
+    header("Location: index.php?user_ID=" . $_COOKIE['user_ID']);
+    exit();
 }
 
 // Close the database connection
