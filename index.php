@@ -21,18 +21,10 @@ if (!isset($_COOKIE['user_ID'])) {
 $user_ID = $conn->real_escape_string($_COOKIE['user_ID']);
 
 // Get user's money and food
-$result = $conn->query("SELECT money, food FROM game WHERE user_id = '$user_ID'");
-$userData = $result->fetch_assoc();
-$money = $userData['money'] ?? 0;
-$food = $userData['food'] ?? 0;
+require "./api/get_currency.php";
 
 // Get user's hamster
-$hamsterResult = $conn->query("SELECT color1, color2, shadow1, shadow2 FROM hamsters WHERE user_id = '$user_ID' ORDER BY user_id DESC LIMIT 1");
-$hamsterData = $hamsterResult->fetch_assoc();
-$color1 = $hamsterData['color1'] ?? "#ffcc00";
-$color2 = $hamsterData['color2'] ?? "#d4a500";
-$shadow1 = $hamsterData['shadow1'] ?? "#ffcc00";
-$shadow2 = $hamsterData['shadow2'] ?? "#d4a500";
+require "./api/get_hamster.php";
 ?>
 
 <body class="bg-gray-100 min-h-screen flex flex-col items-center">
@@ -44,7 +36,7 @@ $shadow2 = $hamsterData['shadow2'] ?? "#d4a500";
             <span class="font-bold">🍎 <?php echo $food; ?></span>
         </div>
         <div id="hContainer" class="flex space-x-4 items-center">
-            <a href="#" class="hover:text-blue-500">Shop</a>
+            <a href="./shop.php" class="hover:text-blue-500">Shop</a>
             <a href="#" class="hover:text-blue-500">Edit</a>
             <a href="logout.php">
                 <img src="./assets/svg/logout.svg" alt="Logout" class="w-6 h-6 hover:opacity-75">
