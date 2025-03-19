@@ -29,20 +29,7 @@ require "./api/get_hamster.php";
 
 <body class="bg-gray-100 min-h-screen flex flex-col items-center">
     <!-- Header -->
-    <header class="w-full flex items-center justify-between p-4 bg-white shadow-md fixed">
-        <a href="#" class="text-lg font-semibold hover:text-blue-500">Home</a>
-        <div class="flex items-center space-x-4 ml-10">
-            <span class="font-bold">💰 <?php echo $money; ?></span>
-            <span class="font-bold">🍎 <?php echo $food; ?></span>
-        </div>
-        <div id="hContainer" class="flex space-x-4 items-center">
-            <a href="./shop.php" class="hover:text-blue-500">Shop</a>
-            <a href="#" class="hover:text-blue-500">Edit</a>
-            <a href="logout.php">
-                <img src="./assets/svg/logout.svg" alt="Logout" class="w-6 h-6 hover:opacity-75">
-            </a>
-        </div>
-    </header>
+    <?php include './assets/site/header.php'; ?>
 
     <!-- Main Content -->
     <main class="w-full max-w-md bg-white p-6 rounded-lg shadow-md mt-20 text-center">
@@ -55,7 +42,7 @@ require "./api/get_hamster.php";
             <object id="hamsterPreview" type="image/svg+xml" data="./assets/svg/hamster.svg" width="480"
                 height="480"></object>
         </div>
-
+        <a href="./game.php" class="bg-blue-500 text-white px-4 py-2 rounded">Go to work</a>
         <script>
             function darkenColor(hex, factor = 0.8) {
                 let r = parseInt(hex.substring(1, 3), 16) * factor;
