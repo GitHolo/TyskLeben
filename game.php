@@ -79,8 +79,8 @@
                 customer.style.left = "-100px";
                 customer.innerHTML = `
                     <div class='text-center'>
-                        <object class="customer-hamster" type="image/svg+xml" data="./assets/svg/hamster.svg" width="80" height="80"></object>
                         <p class='bg-white p-2 rounded shadow-md'>gib mir ${foodRequest}!</p>
+                        <object class="customer-hamster" type="image/svg+xml" data="./assets/svg/hamster.svg" width="80" height="80"></object>
                     </div>
                 `;
                 customerArea.appendChild(customer);
@@ -104,10 +104,8 @@
                 });
             }
 
-            setInterval(spawnCustomer, 5000);
+            spawnCustomer();
         });
-    </script>
-    <script>
         document.addEventListener("DOMContentLoaded", function () {
             const openBook = document.getElementById("openBook");
             const closeBook = document.getElementById("closeBook");
