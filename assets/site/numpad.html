@@ -1,0 +1,54 @@
+<div id="checkout" class="hidden mt-4 p-6 bg-gray-800 text-white rounded-lg shadow-lg w-72 justify-self-center">
+    <h2 class="text-2xl font-bold mb-3 text-center">Cash Register</h2>
+
+    <!-- Register Screen -->
+    <div id="registerScreen" class="bg-gray-900 text-right text-2xl p-3 rounded mb-3 font-mono">
+        <span id="moneyInput">0</span> €
+    </div>
+
+    <!-- Number Pad -->
+    <div class="grid grid-cols-4 gap-2">
+        <button class="calculator-button bg-gray-700 p-3 rounded" data-value="7">7</button>
+        <button class="calculator-button bg-gray-700 p-3 rounded" data-value="8">8</button>
+        <button class="calculator-button bg-gray-700 p-3 rounded" data-value="9">9</button>
+        <button class="calculator-button bg-gray-600 p-3 rounded" data-value="C">C</button>
+
+        <button class="calculator-button bg-gray-700 p-3 rounded" data-value="4">4</button>
+        <button class="calculator-button bg-gray-700 p-3 rounded" data-value="5">5</button>
+        <button class="calculator-button bg-gray-700 p-3 rounded" data-value="6">6</button>
+        <button class="calculator-button bg-gray-600 p-3 rounded" data-value="←">←</button>
+
+        <button class="calculator-button bg-gray-700 p-3 rounded" data-value="1">1</button>
+        <button class="calculator-button bg-gray-700 p-3 rounded" data-value="2">2</button>
+        <button class="calculator-button bg-gray-700 p-3 rounded" data-value="3">3</button>
+        <button class="calculator-button bg-gray-600 p-3 rounded" data-value=".">.</button>
+
+        <button class="calculator-button bg-gray-700 p-3 rounded col-span-2" data-value="0">0</button>
+        <button id="checkoutButton" class="bg-green-500 p-3 rounded col-span-2">Checkout</button>
+    </div>
+
+    <!-- Close Register -->
+    <button id="closeRegister" class="w-full mt-3 bg-red-600 p-3 rounded">Close Register</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const moneyInput = document.getElementById("moneyInput");
+        const calculatorButtons = document.querySelectorAll(".calculator-button");
+
+        calculatorButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const buttonValue = this.dataset.value;
+
+                if (buttonValue === "C") {
+                    moneyInput.textContent = "0";
+                } else if (buttonValue === "←") {
+                    moneyInput.textContent = moneyInput.textContent.slice(0, -1) || "0";
+                } else {
+                    if (moneyInput.textContent === "0") moneyInput.textContent = "";
+                    moneyInput.textContent += buttonValue;
+                }
+            });
+        });
+    });
+</script>

@@ -7,6 +7,7 @@
     <title>Tysk Leben - Shop Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="styles/index.css" rel="stylesheet">
+    <script src="./assets/js/bounceAround.js"></script>
 </head>
 
 <body class="bg-gray-100 flex flex-col items-center min-h-screen">
@@ -32,31 +33,97 @@
     <main class="relative w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-20 text-center">
         <h1 class="text-2xl font-bold mb-4">Cashier</h1>
         <?php include './assets/site/game.php'; ?>
+        <section class="flex justify-around">
+            <button id=" openBook" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">Open Product Book</button>
+            <button id="openRegister" class="bg-green-500 text-white px-4 py-2 rounded mb-4">Open Cash Register</button>
 
-        <button id="openBook" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">Open Product Book</button>
 
+
+        </section>
         <div id="productBook" class="hidden p-4 bg-gray-200 rounded shadow-md">
             <h2 class="text-xl font-bold mb-2">Select Products</h2>
             <div class="grid grid-cols-3 gap-2">
-                <button class="product bg-yellow-300 px-3 py-2 rounded" data-product="BROT" data-price="2">Brot -
+                <button class="product bg-yellow-300 px-3 py-2 rounded flex items-center justify-center"
+                    data-product="BROT" data-price="2"><img src="./assets/svg/brot.svg" class="h-12 w-12" /> -
                     2€</button>
-                <button class="product bg-blue-300 px-3 py-2 rounded" data-product="MILCH" data-price="1.5">Milch -
+                <button class="product bg-blue-300 px-3 py-2 rounded flex items-center justify-center"
+                    data-product="MILCH" data-price="1.5"><img src="./assets/svg/milch.svg" class="h-12 w-12" /> -
                     1.5€</button>
-                <button class="product bg-red-300 px-3 py-2 rounded" data-product="EI" data-price="0.5">Ei -
+                <button class="product bg-red-300 px-3 py-2 rounded flex items-center justify-center" data-product="EI"
+                    data-price="0.5"><img src="./assets/svg/ei.svg" class="h-12 w-12" /> -
                     0.5€</button>
             </div>
             <button id="closeBook" class="hidden mt-2 bg-red-500 text-white px-4 py-2 rounded">Close</button>
         </div>
 
-        <div id="checkout" class="mt-4 p-4 bg-gray-200 rounded shadow-md">
-            <h2 class="text-xl font-bold mb-2">Checkout</h2>
-            <ul id="cart" class="text-left mb-2"></ul>
-            <input id="moneyInput" type="number" step="0.5" placeholder="Enter money received" class="border p-2 mt-2">
-            <button id="checkoutButton" class="bg-green-500 text-white px-4 py-2 rounded mt-2">Checkout</button>
+        <div id="checkout" class="hidden mt-4 p-6 bg-gray-800 text-white rounded-lg shadow-lg w-72 justify-self-center">
+            <h2 class="text-2xl font-bold mb-3 text-center">Cash Register</h2>
+
+            <!-- Register Screen -->
+            <div id="registerScreen" class="bg-gray-900 text-right text-2xl p-3 rounded mb-3 font-mono">
+                <span id="moneyInput">0</span> €
+            </div>
+
+            <!-- Number Pad -->
+            <div class="grid grid-cols-4 gap-2">
+                <button class="calculator-button bg-gray-700 p-3 rounded" data-value="7">7</button>
+                <button class="calculator-button bg-gray-700 p-3 rounded" data-value="8">8</button>
+                <button class="calculator-button bg-gray-700 p-3 rounded" data-value="9">9</button>
+                <button class="calculator-button bg-gray-600 p-3 rounded" data-value="C">C</button>
+
+                <button class="calculator-button bg-gray-700 p-3 rounded" data-value="4">4</button>
+                <button class="calculator-button bg-gray-700 p-3 rounded" data-value="5">5</button>
+                <button class="calculator-button bg-gray-700 p-3 rounded" data-value="6">6</button>
+                <button class="calculator-button bg-gray-600 p-3 rounded" data-value="←">←</button>
+
+                <button class="calculator-button bg-gray-700 p-3 rounded" data-value="1">1</button>
+                <button class="calculator-button bg-gray-700 p-3 rounded" data-value="2">2</button>
+                <button class="calculator-button bg-gray-700 p-3 rounded" data-value="3">3</button>
+                <button class="calculator-button bg-gray-600 p-3 rounded" data-value=".">.</button>
+
+                <button class="calculator-button bg-gray-700 p-3 rounded col-span-2" data-value="0">0</button>
+                <button id="checkoutButton" class="bg-green-500 p-3 rounded col-span-2">Checkout</button>
+            </div>
+
+            <!-- Close Register -->
+            <button id="closeRegister" class="w-full mt-3 bg-red-600 p-3 rounded">Close Register</button>
         </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const moneyInput = document.getElementById("moneyInput");
+                const calculatorButtons = document.querySelectorAll(".calculator-button");
+
+                calculatorButtons.forEach(button => {
+                    button.addEventListener("click", function () {
+                        const buttonValue = this.dataset.value;
+
+                        if (buttonValue === "C") {
+                            moneyInput.textContent = "0";
+                        } else if (buttonValue === "←") {
+                            moneyInput.textContent = moneyInput.textContent.slice(0, -1) || "0";
+                        } else {
+                            if (moneyInput.textContent === "0") moneyInput.textContent = "";
+                            moneyInput.textContent += buttonValue;
+                        }
+                    });
+                });
+            });
+        </script>
     </main>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            const openRegister = document.getElementById("openRegister");
+            const closeRegister = document.getElementById("closeRegister");
+            const checkoutSection = document.getElementById("checkout");
+            const openBook = document.querySelector("button[id=' openBook']");
+            const closeBook = document.getElementById("closeBook");
+            const productBook = document.getElementById("productBook");
+            const cart = document.getElementById("cart");
+            const checkoutButton = document.getElementById("checkoutButton");
+            const moneyInput = document.getElementById("moneyInput");
+            let total = 0;
+            let productCount = 0;
             const customerArea = document.getElementById("customerArea");
             const colorSchemes = [
                 { color1: "#D4A373", color2: "#FAE1DD" },
@@ -71,38 +138,48 @@
 
             function spawnCustomer() {
                 const foods = ["BROT", "MILCH", "EI"];
-                const foodRequest = foods[Math.floor(Math.random() * foods.length)];
+                expectedProduct = foods[Math.floor(Math.random() * foods.length)];
 
-                // Weighted random quantity selection (lower amounts more common)
                 const weights = [0.4, 0.25, 0.15, 0.08, 0.05, 0.03, 0.02, 0.01, 0.005, 0.005];
                 const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                 const quantityWords = ["EINS", "ZWEI", "DREI", "VIER", "FÜNF", "SECHS", "SIEBEN", "ACHT", "NEUN", "ZEHN"];
 
                 let randomNum = Math.random();
                 let cumulative = 0;
-                let quantity = 1; // Default fallback
+                expectedCount = 1;
                 for (let i = 0; i < weights.length; i++) {
                     cumulative += weights[i];
                     if (randomNum < cumulative) {
-                        quantity = quantities[i];
+                        expectedCount = quantities[i];
                         break;
                     }
                 }
 
+                expectedTotal = expectedCount * getProductPrice(expectedProduct);
+
                 const { color1, color2 } = getRandomColorScheme();
 
                 const customer = document.createElement("div");
-                customer.classList.add("absolute", "bottom-0", "transition-all", "z-40");
-                customer.style.left = "-100px";
+                customer.classList.add("absolute", "bottom-0", "transition-all", "z-40", "duration-[1000ms]");
+                customer.style.left = "-200px";
                 customer.innerHTML = `
-        <div class='text-center'>
-            <p class='bg-white p-2 rounded shadow-md'>gib mir <span class="text-sky-500">${quantityWords[quantity - 1]}</span> <span class="text-red-600">${foodRequest}</span>!</p>
-            <object class="customer-hamster" type="image/svg+xml" data="./assets/svg/hamster.svg" width="80" height="80"></object>
-        </div>
-    `;
+            <div class='text-center'>
+                <p class='bg-white p-2 rounded shadow-md ml-[50px] opacity-0 transition-opacity duration-300' id='customerRequest'>
+                    gib mir <span class="text-sky-500">${quantityWords[expectedCount - 1]}</span> <span class="text-red-600">${expectedProduct}</span>!
+                </p>
+                <object class="customer-hamster" type="image/svg+xml" data="./assets/svg/hamster.svg" width="140" height="140"></object>
+            </div>
+        `;
                 customerArea.appendChild(customer);
 
                 setTimeout(() => customer.style.left = "50%", 500);
+
+                setTimeout(() => {
+                    const customerRequest = customer.querySelector('#customerRequest');
+                    if (customerRequest) {
+                        customerRequest.style.opacity = '1';
+                    }
+                }, 2000);
 
                 customer.querySelector(".customer-hamster").addEventListener("load", function () {
                     const svgDoc = this.contentDocument;
@@ -122,18 +199,6 @@
             }
 
 
-            spawnCustomer();
-        });
-        document.addEventListener("DOMContentLoaded", function () {
-            const openBook = document.getElementById("openBook");
-            const closeBook = document.getElementById("closeBook");
-            const productBook = document.getElementById("productBook");
-            const cart = document.getElementById("cart");
-            const checkoutButton = document.getElementById("checkoutButton");
-            const moneyInput = document.getElementById("moneyInput");
-            let total = 0;
-            let productCount = 0;
-
             function getRandomPosition(minX, maxX, minY, maxY) {
                 return [
                     Math.floor(Math.random() * (maxX - minX + 1)) + minX,
@@ -148,26 +213,36 @@
                 const maxY = 100;
                 return getRandomPosition(minX, maxX, minY, maxY);
             }
-
+            openRegister.addEventListener("click", () => {
+                checkoutSection.classList.remove("hidden");
+                openBook.closest('section').classList.add("hidden");
+            });
             openBook.addEventListener("click", () => {
                 productBook.classList.remove("hidden");
-                openBook.classList.add("hidden");
+                openBook.closest('section').classList.add("hidden");
                 closeBook.classList.remove("hidden");
             });
 
             closeBook.addEventListener("click", () => {
                 productBook.classList.add("hidden");
                 closeBook.classList.add("hidden");
-                openBook.classList.remove("hidden");
+                openBook.closest('section').classList.remove("hidden");
             });
+            closeRegister.addEventListener("click", () => {
+                checkoutSection.classList.add("hidden");
+                openBook.closest('section').classList.remove("hidden");
+            });
+
 
             document.querySelectorAll(".product").forEach(item => {
                 item.addEventListener("click", function () {
                     const product = this.dataset.product;
                     const price = parseFloat(this.dataset.price);
-                    total += price;
+                    if (product === expectedProduct) {
+                        total += price;
+                        productCount++;
+                    }
 
-                    // Create product div
                     const productDiv = document.createElement("div");
                     productDiv.classList.add("absolute", "transition-transform", "duration-300", "ease-out", "opacity-0", "scale-50");
                     const [left, top] = getProductPosition();
@@ -175,49 +250,69 @@
                     productDiv.style.top = `${top}px`;
                     productDiv.innerHTML = `<img src="./assets/svg/${product.toLowerCase()}.svg" alt="${product}" class="w-12 h-12">`;
 
-                    const cartArea = document.getElementById("cartArea");
                     cartArea.appendChild(productDiv);
 
-                    // Animate appearance (fade in & scale up)
                     setTimeout(() => {
                         productDiv.classList.remove("opacity-0", "scale-50");
                         productDiv.classList.add("scale-100");
                     }, 50);
 
-                    // Make the product bounce around when idle
                     bounceAround(productDiv);
-
-                    productCount++;
                 });
             });
 
             // Function to make products bounce randomly
-            function bounceAround(element) {
-                function move() {
-                    const randomX = (Math.random() - 0.5) * 20; // Random small movement
-                    const randomY = (Math.random() - 0.5) * 20;
 
-                    element.style.transform = `translate(${randomX}px, ${randomY}px)`;
-                    element.style.transition = "transform 0.5s ease-in-out";
-
-                    setTimeout(move, 800 + Math.random() * 500); // Varying interval for a natural effect
-                }
-                move();
-            }
 
             checkoutButton.addEventListener("click", function () {
-                const enteredAmount = parseFloat(moneyInput.value);
-                if (enteredAmount === total) {
+                const moneyInput = document.getElementById("moneyInput");
+                const enteredAmount = parseFloat(moneyInput.innerHTML);
+                let happy = false;
+
+                if (enteredAmount === expectedTotal && productCount === expectedCount) {
                     alert("Transaction Successful! Customer is happy.");
+                    happy = true;
                 } else {
                     alert("Incorrect order or payment! Try again.");
+                    happy = false;
                 }
+
                 total = 0;
-                cart.innerHTML = "";
-                moneyInput.value = "";
+                while (cartArea.firstChild) {
+                    cartArea.removeChild(cartArea.firstChild);
+                }
+
+                moneyInput.innerHTML = "0";
                 productCount = 0;
+
+                document.querySelectorAll(".customer-hamster").forEach(customer => {
+                    const customerContainer = customer.closest("div.absolute.bottom-0");
+
+                    // Get the text bubble and change its content
+                    const textBubble = customerContainer.querySelector("#customerRequest");
+                    if (happy) {
+                        textBubble.innerHTML = '<span class="text-green-600">' + (Math.random() > 0.5 ? "Danke!" : "Auf Wiedersehen!") + '</span>';
+                    } else {
+                        textBubble.innerHTML = '<span class="text-red-600">' + (Math.random() > 0.5 ? "Schade!" : "NEINN!!") + '</span>';
+                    }
+
+                    // Move the customer slowly to the right
+                    customerContainer.style.transition = "left 1.5s ease-out";
+                    customerContainer.style.left = "100%"; // Moves them out of the screen
+
+                    // Remove customer after animation
+                    setTimeout(() => customerContainer.remove(), 1500);
+                });
+
+                setTimeout(spawnCustomer, 2000);
             });
+            function getProductPrice(product) {
+                const prices = { "BROT": 2, "MILCH": 1.5, "EI": 0.5 };
+                return prices[product] || 0;
+            }
+            setTimeout(spawnCustomer(), 1000);
         });
+
     </script>
 </body>
 
