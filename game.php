@@ -51,7 +51,7 @@
         <div id="checkout" class="mt-4 p-4 bg-gray-200 rounded shadow-md">
             <h2 class="text-xl font-bold mb-2">Checkout</h2>
             <ul id="cart" class="text-left mb-2"></ul>
-            <input id="moneyInput" type="number" step="0.01" placeholder="Enter money received" class="border p-2 mt-2">
+            <input id="moneyInput" type="number" step="0.5" placeholder="Enter money received" class="border p-2 mt-2">
             <button id="checkoutButton" class="bg-green-500 text-white px-4 py-2 rounded mt-2">Checkout</button>
         </div>
     </main>
@@ -70,19 +70,36 @@
             }
 
             function spawnCustomer() {
-                const foods = ["BROT", "MILCH", "EI", "ZWEI MILCH"];
+                const foods = ["BROT", "MILCH", "EI"];
                 const foodRequest = foods[Math.floor(Math.random() * foods.length)];
+
+                // Weighted random quantity selection (lower amounts more common)
+                const weights = [0.4, 0.25, 0.15, 0.08, 0.05, 0.03, 0.02, 0.01, 0.005, 0.005];
+                const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                const quantityWords = ["EINS", "ZWEI", "DREI", "VIER", "FÜNF", "SECHS", "SIEBEN", "ACHT", "NEUN", "ZEHN"];
+
+                let randomNum = Math.random();
+                let cumulative = 0;
+                let quantity = 1; // Default fallback
+                for (let i = 0; i < weights.length; i++) {
+                    cumulative += weights[i];
+                    if (randomNum < cumulative) {
+                        quantity = quantities[i];
+                        break;
+                    }
+                }
+
                 const { color1, color2 } = getRandomColorScheme();
 
                 const customer = document.createElement("div");
                 customer.classList.add("absolute", "bottom-0", "transition-all", "z-40");
                 customer.style.left = "-100px";
                 customer.innerHTML = `
-                    <div class='text-center'>
-                        <p class='bg-white p-2 rounded shadow-md'>gib mir ${foodRequest}!</p>
-                        <object class="customer-hamster" type="image/svg+xml" data="./assets/svg/hamster.svg" width="80" height="80"></object>
-                    </div>
-                `;
+        <div class='text-center'>
+            <p class='bg-white p-2 rounded shadow-md'>gib mir <span class="text-sky-500">${quantityWords[quantity - 1]}</span> <span class="text-red-600">${foodRequest}</span>!</p>
+            <object class="customer-hamster" type="image/svg+xml" data="./assets/svg/hamster.svg" width="80" height="80"></object>
+        </div>
+    `;
                 customerArea.appendChild(customer);
 
                 setTimeout(() => customer.style.left = "50%", 500);
@@ -99,10 +116,11 @@
                         svgDoc.getElementById("faceS").setAttribute("fill", darkenColor(color1));
                         svgDoc.getElementById("chestColor").setAttribute("fill", color2);
                         svgDoc.getElementById("chestS").setAttribute("fill", darkenColor(color2));
-                        svgDoc.getElementById("earFluff").setAttribute("fill", color2)
+                        svgDoc.getElementById("earFluff").setAttribute("fill", color2);
                     }
                 });
             }
+
 
             spawnCustomer();
         });
@@ -149,8 +167,9 @@
                     const price = parseFloat(this.dataset.price);
                     total += price;
 
+                    // Create product div
                     const productDiv = document.createElement("div");
-                    productDiv.classList.add("absolute");
+                    productDiv.classList.add("absolute", "transition-transform", "duration-300", "ease-out", "opacity-0", "scale-50");
                     const [left, top] = getProductPosition();
                     productDiv.style.left = `${left}px`;
                     productDiv.style.top = `${top}px`;
@@ -159,9 +178,32 @@
                     const cartArea = document.getElementById("cartArea");
                     cartArea.appendChild(productDiv);
 
+                    // Animate appearance (fade in & scale up)
+                    setTimeout(() => {
+                        productDiv.classList.remove("opacity-0", "scale-50");
+                        productDiv.classList.add("scale-100");
+                    }, 50);
+
+                    // Make the product bounce around when idle
+                    bounceAround(productDiv);
+
                     productCount++;
                 });
             });
+
+            // Function to make products bounce randomly
+            function bounceAround(element) {
+                function move() {
+                    const randomX = (Math.random() - 0.5) * 20; // Random small movement
+                    const randomY = (Math.random() - 0.5) * 20;
+
+                    element.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                    element.style.transition = "transform 0.5s ease-in-out";
+
+                    setTimeout(move, 800 + Math.random() * 500); // Varying interval for a natural effect
+                }
+                move();
+            }
 
             checkoutButton.addEventListener("click", function () {
                 const enteredAmount = parseFloat(moneyInput.value);

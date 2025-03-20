@@ -1,6 +1,6 @@
 <div id="customerArea"
     class="mb-5 bg-[url(./assets/svg/store-bg.jpg)] bg-cover relative h-96 flex justify-center items-end bg-gray-200 overflow-hidden">
-    <div id="cartArea" class="bottom-0 right-0 absolute w-48 h-48"></div>
+    <div id="cartArea" class="bottom-0 right-0 absolute w-[200px] h-[150px]"></div>
     <object id="counterSVG" type="image/svg+xml" data="./assets/svg/counter.svg" width="480" height="140"
         class="absolute z-10"></object>
     <div class="mt-6 flex justify-center">

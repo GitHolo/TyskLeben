@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="milk" viewBox="0 0 1000 1000">
+  <rect width="389.58" height="159.16" x="216.67" y="301.67" style="fill:#e0e0e0"></rect>
+  <rect width="389.58" height="305.01" x="216.67" y="460.83" style="fill:#039be5"></rect>
+  <rect width="389.58" height="159.16" x="216.67" y="765.84" style="fill:#e0e0e0"></rect>
+  <rect width="177.08" height="159.16" x="606.25" y="301.67" style="fill:#bdbdbd"></rect>
+  <rect width="177.08" height="305.01" x="606.25" y="460.83" style="fill:#0288d1"></rect>
+  <rect width="177.08" height="159.16" x="606.25" y="765.84" style="fill:#bdbdbd"></rect>
+  <polygon points="783.33 301.67 606.25 301.67 606.25 301.66 694.79 160.01 783.33 301.67" style="fill:#a5a5a5"></polygon>
+  <polygon points="694.79 160 694.79 160.01 606.25 301.66 216.67 301.66 305.21 160 694.79 160" style="fill:#bdbdbd"></polygon>
+  <rect width="389.58" height="85" x="305.21" y="75" style="fill:#8e8e8e"></rect>
+  <path d="M459.81,646.42a48.35,48.35,0,1,1-96.7,0c0-26.7,48.35-114.52,48.35-114.52S459.81,619.72,459.81,646.42Z" style="fill:#eee"></path>
+</svg>
