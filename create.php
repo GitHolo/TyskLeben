@@ -65,13 +65,11 @@
         document.getElementById("saveHamster").addEventListener("click", function () {
             const color1 = document.getElementById("color1").value;
             const color2 = document.getElementById("color2").value;
-            const shadow1 = darkenColor(color1);
-            const shadow2 = darkenColor(color2);
 
             fetch("api/save_hamster.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ color1, color2, shadow1, shadow2 })
+                body: JSON.stringify({ color1, color2 })
             }).then(res => res.json()).then(data => {
                 if (data.success) {
                     alert("Hamster saved!");

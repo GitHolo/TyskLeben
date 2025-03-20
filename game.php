@@ -110,10 +110,26 @@
             const openBook = document.getElementById("openBook");
             const closeBook = document.getElementById("closeBook");
             const productBook = document.getElementById("productBook");
-            const checkoutList = document.getElementById("cart");
+            const cart = document.getElementById("cart");
             const checkoutButton = document.getElementById("checkoutButton");
             const moneyInput = document.getElementById("moneyInput");
             let total = 0;
+            let productCount = 0;
+
+            function getRandomPosition(minX, maxX, minY, maxY) {
+                return [
+                    Math.floor(Math.random() * (maxX - minX + 1)) + minX,
+                    Math.floor(Math.random() * (maxY - minY + 1)) + minY
+                ];
+            }
+            function getProductPosition() {
+                // Adjust these values to change the area where products appear
+                const minX = 0;
+                const maxX = 100;
+                const minY = 0;
+                const maxY = 100;
+                return getRandomPosition(minX, maxX, minY, maxY);
+            }
 
             openBook.addEventListener("click", () => {
                 productBook.classList.remove("hidden");
@@ -133,23 +149,31 @@
                     const price = parseFloat(this.dataset.price);
                     total += price;
 
-                    const li = document.createElement("li");
-                    li.textContent = `${product} - ${price}€`;
-                    checkoutList.appendChild(li);
+                    const productDiv = document.createElement("div");
+                    productDiv.classList.add("absolute");
+                    const [left, top] = getProductPosition();
+                    productDiv.style.left = `${left}px`;
+                    productDiv.style.top = `${top}px`;
+                    productDiv.innerHTML = `<img src="./assets/svg/${product.toLowerCase()}.svg" alt="${product}" class="w-12 h-12">`;
+
+                    const cartArea = document.getElementById("cartArea");
+                    cartArea.appendChild(productDiv);
+
+                    productCount++;
                 });
             });
 
             checkoutButton.addEventListener("click", function () {
                 const enteredAmount = parseFloat(moneyInput.value);
                 if (enteredAmount === total) {
-                    alert("Transaction Successful! Correct amount given.");
+                    alert("Transaction Successful! Customer is happy.");
                 } else {
-                    alert("Incorrect amount! Try again.");
+                    alert("Incorrect order or payment! Try again.");
                 }
                 total = 0;
-                checkoutList.innerHTML = "";
+                cart.innerHTML = "";
                 moneyInput.value = "";
-                spawnCustomer();
+                productCount = 0;
             });
         });
     </script>

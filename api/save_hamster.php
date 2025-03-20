@@ -14,11 +14,10 @@ $user_ID = $conn->real_escape_string($_COOKIE['user_ID']);
 $data = json_decode(file_get_contents("php://input"), true);
 $color1 = $conn->real_escape_string($data["color1"]);
 $color2 = $conn->real_escape_string($data["color2"]);
-$shadow1 = $conn->real_escape_string($data["shadow1"]);
-$shadow2 = $conn->real_escape_string($data["shadow2"]);
+
 
 // Save colors to database for the specific user
-$sql = "INSERT INTO hamsters (user_id, color1, color2, shadow1, shadow2) VALUES ('$user_ID', '$color1', '$color2', '$shadow1', '$shadow2')";
+$sql = "INSERT INTO hamsters (user_id, color1, color2) VALUES ('$user_ID', '$color1', '$color2')";
 $sql2 = "INSERT INTO game (user_id, money, food) VALUES ('$user_ID', '100', '100')";
 if ($conn->query($sql) === TRUE) {
     $conn->query($sql2);
