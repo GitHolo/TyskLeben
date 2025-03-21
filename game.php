@@ -52,11 +52,21 @@
                 <button class="product bg-red-300 px-3 py-2 rounded flex items-center justify-center" data-product="EI"
                     data-price="0.5"><img src="./assets/svg/ei.svg" class="h-12 w-12" /> -
                     0.5€</button>
+                <button class="product bg-green-300 px-3 py-2 rounded flex items-center justify-center"
+                    data-product="BANANEN" data-price="1"><img src="./assets/svg/bananen.svg" class="h-12 w-12" /> -
+                    1€</button>
+                <button class="product bg-purple-300 px-3 py-2 rounded flex items-center justify-center"
+                    data-product="BIER" data-price="1"><img src="./assets/svg/bier.svg" class="h-12 w-12" /> -
+                    1.25€</button>
+                <button class="product bg-orange-300 px-3 py-2 rounded flex items-center justify-center"
+                    data-product="TOMATEN" data-price="0.25"><img src="./assets/svg/tomaten.svg" class="h-12 w-12" /> -
+                    0.25€</button>
             </div>
             <button id="closeBook" class="hidden mt-2 bg-red-500 text-white px-4 py-2 rounded">Close</button>
         </div>
 
-        <div id="checkout" class="hidden mt-4 p-6 bg-gray-800 text-white rounded-lg shadow-lg w-72 justify-self-center">
+        <div id="checkout"
+            class="hidden inline-grid mt-4 p-6 bg-gray-800 text-white rounded-lg shadow-lg w-72 justify-self-center">
             <h2 class="text-2xl font-bold mb-3 text-center">Cash Register</h2>
 
             <!-- Register Screen -->
@@ -137,7 +147,7 @@
             }
 
             function spawnCustomer() {
-                const foods = ["BROT", "MILCH", "EI"];
+                const foods = ["BROT", "MILCH", "EI", "BANANEN", "BIER", "TOMATEN"];
                 expectedProduct = foods[Math.floor(Math.random() * foods.length)];
 
                 const weights = [0.4, 0.25, 0.15, 0.08, 0.05, 0.03, 0.02, 0.01, 0.005, 0.005];
@@ -307,7 +317,7 @@
                 setTimeout(spawnCustomer, 2000);
             });
             function getProductPrice(product) {
-                const prices = { "BROT": 2, "MILCH": 1.5, "EI": 0.5 };
+                const prices = { "BROT": 2, "MILCH": 1.5, "EI": 0.5, "BANANEN": 1, "BIER": 1.25, "TOMATEN": 0.25 };
                 return prices[product] || 0;
             }
             setTimeout(spawnCustomer(), 1000);

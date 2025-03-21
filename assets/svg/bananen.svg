@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="enable-background:new 0 0 47.5 47.5" viewBox="0 0 47.5 47.5" id="banana">
+  <defs>
+    <clipPath id="a">
+      <path d="M0 38h38V0H0v38Z"></path>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 0 47.5)">
+    <path d="M0 0c2.684 1.342 5-4 3-13-1.106-4.977-5-9-9-12s-11 1-7 5 8 7 10 13c1.304 3.912 1 6 3 7" style="fill:#ffe8b6;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(29 35)"></path>
+    <path d="M0 0c0-3-1-9-4-13s-7-5-4-1 5 7 6 11 2 7 2 3" style="fill:#ffd983;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(32 29)"></path>
+    <path d="M0 0c-.296-.592 1 3-1 5a7.65 7.65 0 0 1-.521-.593C-1.621 5.112-2.113 5.557-3 6c-2 1-10.001-1-4-1 3 0 4-1.999 2-4a2.919 2.919 0 0 1-.623-.911C-6.039-.258-6.495-.621-7-1c-2.263-1.697-5.84-4.227-10-7-3-2-4-3-4-4 0-3 9-3 14-1S3-6 3-6l4 4C4 2 0 0 0 0" style="fill:#ffcc4d;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(23 17)"></path>
+    <path d="M0 0s1 5-3 7c-4.001 2-8 1-11-1s-2-3.999-3-5c-1-1 1-2 3 0s8.315 4.895 11 4c3-1 2-2.999 3-5" style="fill:#ffe8b6;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(23 17)"></path>
+    <path d="M0 0c3 0 8-3 7-9s-5-7-7-7h-4c-2 0-3-1-4-1s-2 2 0 2 4 0 5 1 5 0 5 6c0 3-4 7-6 7 0 0 2 1 4 1" style="fill:#a6d388;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(27 18)"></path>
+    <path d="M0 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0" style="fill:#3e721d;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(20 2)"></path>
+    <path d="M0 0c3 0 8-3 7-9s-5-7-7-7h-4c-2 0 0 1 1 2s5 0 5 6c0 3-4 7-6 7 0 0 2 1 4 1" style="fill:#ffcc4d;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(27 18)"></path>
+    <path d="M0 0c3 0 8-3 7-9s-5-7-7-7h-2c-2 0-1 1 0 2s4 0 4 6c0 3-4 7-6 7 0 0 2 1 4 1" style="fill:#ffe8b6;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(27 18)"></path>
+    <path d="M0 0c3 0 5-1 3-3C1.419-4.581-3-8-7-9s-8-1-5 1 9.764 8 12 8" style="fill:#ffd983;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(18 16)"></path>
+    <path d="M0 0c1 0 1 0 1-.667C1-1.333 1-2 0-2S-1-.667-1-.667-1 0 0 0" style="fill:#c1694f;fill-opacity:1;fill-rule:nonzero;stroke:none" transform="translate(3 6)"></path>
+  </g>
+</svg>
