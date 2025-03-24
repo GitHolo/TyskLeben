@@ -123,6 +123,7 @@
     </main>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            let lastTransactionAmount = 0;
             const openRegister = document.getElementById("openRegister");
             const closeRegister = document.getElementById("closeRegister");
             const checkoutSection = document.getElementById("checkout");
@@ -136,11 +137,40 @@
             let productCount = 0;
             const customerArea = document.getElementById("customerArea");
             const colorSchemes = [
-                { color1: "#D4A373", color2: "#FAE1DD" },
-                { color1: "#A3C4F3", color2: "#FFD6A5" },
-                { color1: "#FFAFCC", color2: "#CDB4DB" },
-                { color1: "#90DBF4", color2: "#FFC8DD" }
+                // Soft pastel tones with a warm touch
+                { color1: "#F3C9C3", color2: "#F7D2D2" },
+
+                // Oceanic blues and coral pinks
+                { color1: "#0A74DA", color2: "#FF6F61" },
+
+                // Earthy tones with a splash of nature
+                { color1: "#A7B9A7", color2: "#F4E1D2" },
+
+                // Vibrant sunset colors
+                { color1: "#FF8C42", color2: "#FDCB82" },
+
+                // Mystical vibes with a pop of lavender
+                { color1: "#C4A0C8", color2: "#F5B7B1" },
+
+                // Fresh citrus hues for a zesty look
+                { color1: "#FFB84D", color2: "#F6A6D4" },
+
+                // Retro 80s pastel vibes
+                { color1: "#F8D5D1", color2: "#56CCF2" },
+
+                // Candy-coated fun with neon touches
+                { color1: "#F45D01", color2: "#F1D0A5" },
+
+                // Cool, serene tones with hints of peach
+                { color1: "#A0D8EF", color2: "#F3A4B5" },
+
+                // Soft neutrals with a hint of warmth
+                { color1: "#D6D4D1", color2: "#E8D7B9" },
+
+                // Whimsical blend of teal and pink
+                { color1: "#6B8D8C", color2: "#F4A9C1" }
             ];
+
 
             function getRandomColorScheme() {
                 return colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
@@ -274,6 +304,7 @@
             // Function to make products bounce randomly
 
 
+
             checkoutButton.addEventListener("click", function () {
                 const moneyInput = document.getElementById("moneyInput");
                 const enteredAmount = parseFloat(moneyInput.innerHTML);
@@ -282,8 +313,16 @@
                 if (enteredAmount === expectedTotal && productCount === expectedCount) {
                     alert("Transaction Successful! Customer is happy.");
                     happy = true;
+                    lastTransactionAmount = enteredAmount * 0.13;
+                    cash = Math.round(lastTransactionAmount, 2);
+                    updateMoneyInDB(cash);
+                    addMoneyAnimation(cash);
+                    updateHeaderMoney(cash);
                 } else {
                     alert("Incorrect order or payment! Try again.");
+                    updateMoneyInDB(-0.25);
+                    addMoneyAnimation(-0.25);
+                    updateHeaderMoney(-0.25);
                     happy = false;
                 }
 
@@ -300,11 +339,9 @@
 
                     // Get the text bubble and change its content
                     const textBubble = customerContainer.querySelector("#customerRequest");
-                    if (happy) {
-                        textBubble.innerHTML = '<span class="text-green-600">' + (Math.random() > 0.5 ? "Danke!" : "Auf Wiedersehen!") + '</span>';
-                    } else {
-                        textBubble.innerHTML = '<span class="text-red-600">' + (Math.random() > 0.5 ? "Schade!" : "NEINN!!") + '</span>';
-                    }
+                    textBubble.innerHTML = happy
+                        ? '<span class="text-green-600">' + (Math.random() > 0.5 ? "Danke!" : "Auf Wiedersehen!") + '</span>'
+                        : '<span class="text-red-600">' + (Math.random() > 0.5 ? "Schade!" : "NEINN!!") + '</span>';
 
                     // Move the customer slowly to the right
                     customerContainer.style.transition = "left 1.5s ease-out";
@@ -316,12 +353,83 @@
 
                 setTimeout(spawnCustomer, 2000);
             });
+
+
             function getProductPrice(product) {
                 const prices = { "BROT": 2, "MILCH": 1.5, "EI": 0.5, "BANANEN": 1, "BIER": 1.25, "TOMATEN": 0.25 };
                 return prices[product] || 0;
             }
             setTimeout(spawnCustomer(), 1000);
+
+            function addMoneyAnimation(amount) {
+                const headerMoney = document.querySelector("header div span.font-bold");
+
+                // Create floating money text
+                const moneyText = document.createElement("div");
+
+                // Check if amount is positive or negative
+                if (amount >= 0) {
+                    moneyText.innerHTML = `+${amount.toFixed(2)} 💰`;  // Add '+' for positive amount
+                    moneyText.classList.add("text-green-600");  // Green for positive
+                } else {
+                    moneyText.innerHTML = `${amount.toFixed(2)} 💰`;  // No '+' for negative amount, just a minus
+                    moneyText.classList.add("text-red-600");  // Red for negative
+                }
+
+                // Add other necessary classes separately
+                moneyText.classList.add("z-[9999]", "absolute", "font-bold", "text-lg", "transition-all");
+
+                // Append to header
+                const headerContainer = document.querySelector("header");
+                headerContainer.appendChild(moneyText);
+
+                // Get header money position
+                const rect = headerMoney.getBoundingClientRect();
+                moneyText.style.position = "absolute";
+                moneyText.style.left = `${rect.left + rect.width / 2}px`;
+                moneyText.style.top = `${rect.top - 5}px`;
+
+                // Animate upwards and fade out
+                setTimeout(() => {
+                    moneyText.style.transform = "translateY(-20px)";
+                    moneyText.style.opacity = "0";
+                }, 500);
+
+                // Remove after animation
+                setTimeout(() => moneyText.remove(), 1000);
+            }
+
+
+
+            // Function to send update request to the server
+            function updateMoneyInDB(amount) {
+                console.log("Calling updateMoneyInDB with amount:", amount);
+                fetch("./api/update_money.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: `money=${amount}`
+                })
+                    .then(response => response.text())
+                    .then(data => console.log("Money updated:", data))
+                    .catch(error => console.error("Error updating money:", error));
+            }
+
+
+
+            // Updates the money amount in the header
+            function updateHeaderMoney(amount) {
+                const headerMoney = document.querySelector("header div span.font-bold");
+                let currentMoney = parseFloat(headerMoney.textContent.replace("💰", "").trim());
+                headerMoney.textContent = `💰 ${(currentMoney + amount).toFixed(2)}`;
+            }
+
+
+
+
         });
+
 
     </script>
 </body>

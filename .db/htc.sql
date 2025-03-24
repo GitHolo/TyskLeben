@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2025 at 09:15 PM
+-- Generation Time: Mar 24, 2025 at 03:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `game` (
   `user_ID` int(255) NOT NULL,
-  `money` int(255) NOT NULL,
+  `money` decimal(10,2) DEFAULT NULL,
   `food` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -38,8 +38,8 @@ CREATE TABLE `game` (
 --
 
 INSERT INTO `game` (`user_ID`, `money`, `food`) VALUES
-(18, 999999, 999999),
-(22, 100, 100);
+(18, 999999.00, 999999),
+(22, 100.00, 100);
 
 -- --------------------------------------------------------
 
