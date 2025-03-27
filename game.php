@@ -56,8 +56,8 @@
                     data-product="BANANEN" data-price="1"><img src="./assets/svg/bananen.svg" class="h-12 w-12" /> -
                     1€</button>
                 <button class="product bg-purple-300 px-3 py-2 rounded flex items-center justify-center"
-                    data-product="BIER" data-price="1"><img src="./assets/svg/bier.svg" class="h-12 w-12" /> -
-                    1€</button>
+                    data-product="BIER" data-price="1.25"><img src="./assets/svg/bier.svg" class="h-12 w-12" /> -
+                    1.25€</button>
                 <button class="product bg-orange-300 px-3 py-2 rounded flex items-center justify-center"
                     data-product="TOMATEN" data-price="0.25"><img src="./assets/svg/tomaten.svg" class="h-12 w-12" /> -
                     0.25€</button>
@@ -178,24 +178,46 @@
 
             function spawnCustomer() {
                 const foods = ["BROT", "MILCH", "EI", "BANANEN", "BIER", "TOMATEN"];
-                expectedProduct = foods[Math.floor(Math.random() * foods.length)];
-
                 const weights = [0.4, 0.25, 0.15, 0.08, 0.05, 0.03, 0.02, 0.01, 0.005, 0.005];
                 const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                 const quantityWords = ["EINS", "ZWEI", "DREI", "VIER", "FÜNF", "SECHS", "SIEBEN", "ACHT", "NEUN", "ZEHN"];
 
-                let randomNum = Math.random();
-                let cumulative = 0;
-                expectedCount = 1;
-                for (let i = 0; i < weights.length; i++) {
-                    cumulative += weights[i];
-                    if (randomNum < cumulative) {
-                        expectedCount = quantities[i];
-                        break;
+                // Randomly determine how many different products the customer will order (1-3)
+                const numProducts = Math.random() < 0.6 ? 1 : Math.random() < 0.8 ? 2 : 3;
+
+                let orderedProducts = []; // Stores { product, count }
+                let expectedTotal = 0;
+
+                for (let i = 0; i < numProducts; i++) {
+                    let randomProduct;
+                    do {
+                        randomProduct = foods[Math.floor(Math.random() * foods.length)];
+                    } while (orderedProducts.some(item => item.product === randomProduct)); // Avoid duplicate product requests
+
+                    let randomNum = Math.random();
+                    let cumulative = 0;
+                    let quantity = 1;
+                    for (let j = 0; j < weights.length; j++) {
+                        cumulative += weights[j];
+                        if (randomNum < cumulative) {
+                            quantity = quantities[j];
+                            break;
+                        }
                     }
+
+                    orderedProducts.push({ product: randomProduct, count: quantity });
+                    expectedTotal += quantity * getProductPrice(randomProduct);
                 }
 
-                expectedTotal = expectedCount * getProductPrice(expectedProduct);
+                expectedProduct = orderedProducts.map(item => item.product); // Array of expected products
+                expectedCount = orderedProducts.map(item => item.count); // Array of expected quantities
+                this.expectedTotal = expectedTotal;
+
+                // Generate request text
+                let requestText = orderedProducts.map(item =>
+                    `<span class="text-sky-500">${quantityWords[item.count - 1]}</span> 
+        <span class="text-red-600">${item.product}</span>`
+                ).join(" und ");
 
                 const { color1, color2 } = getRandomColorScheme();
 
@@ -203,13 +225,13 @@
                 customer.classList.add("absolute", "bottom-0", "transition-all", "z-40", "duration-[1000ms]");
                 customer.style.left = "-200px";
                 customer.innerHTML = `
-            <div class='text-center'>
-                <p class='bg-white p-2 rounded shadow-md ml-[50px] opacity-0 transition-opacity duration-300' id='customerRequest'>
-                    gib mir <span class="text-sky-500">${quantityWords[expectedCount - 1]}</span> <span class="text-red-600">${expectedProduct}</span>!
-                </p>
-                <object class="customer-hamster" type="image/svg+xml" data="./assets/svg/hamster.svg" width="140" height="140"></object>
-            </div>
-        `;
+        <div class='text-center'>
+            <p class='max-w-[200px] bg-white p-2 rounded shadow-md ml-[50px] opacity-0 transition-opacity duration-300' id='customerRequest'>
+                gib mir ${requestText}!
+            </p>
+            <object class="customer-hamster" type="image/svg+xml" data="./assets/svg/hamster.svg" width="140" height="140"></object>
+        </div>
+    `;
                 customerArea.appendChild(customer);
 
                 setTimeout(() => customer.style.left = "50%", 500);
@@ -295,8 +317,8 @@
             document.querySelectorAll(".product").forEach((item, index) => {
                 cartArea = document.getElementById('cartArea');
                 item.addEventListener("click", function () {
-                    const product = this.dataset.product;
-                    const price = parseFloat(this.dataset.price);
+                    const product = this.dataset.product.trim().toUpperCase(); // Ensure consistency
+                    const price = getProductPrice(product); // Get the correct price
 
                     // Add to cart only if it's the expected product
                     if (cartContents[product]) {
@@ -344,20 +366,26 @@
                 const enteredAmount = parseFloat(moneyInput.innerHTML);
                 let happy = false;
 
-                // Calculate total dynamically
+                // Calculate actual cart total and quantities
                 let calculatedTotal = 0;
-                let cartProductCount = 0;
+                let cartProductMap = {};
+
                 for (let product in cartContents) {
+                    cartProductMap[product] = cartContents[product].count;
                     calculatedTotal += cartContents[product].price * cartContents[product].count;
-                    cartProductCount += cartContents[product].count;
                 }
 
-                // Ensure correct products & payment
-                if (enteredAmount === calculatedTotal && cartContents[expectedProduct]?.count === expectedCount) {
+                // Check if all expected products are in the cart with correct quantities
+                let orderCorrect = expectedProduct.every((product, index) =>
+                    cartProductMap[product] === expectedCount[index]
+                );
+
+                // Ensure the money paid matches and all products match
+                if (enteredAmount === calculatedTotal && orderCorrect) {
                     alert("Transaction Successful! Customer is happy.");
                     happy = true;
 
-                    lastTransactionAmount = (enteredAmount * 0.13).toFixed(2);
+                    lastTransactionAmount = (enteredAmount * 0.13 + 1).toFixed(2);
                     let cash = parseFloat(lastTransactionAmount);
                     updateMoneyInDB(cash);
                     addMoneyAnimation(cash);
@@ -368,13 +396,11 @@
                     addMoneyAnimation(-0.25);
                     updateHeaderMoney(-0.25);
                     happy = false;
-                    console.log(enteredAmount);
-                    console.log(calculatedTotal);
-                    console.log(cartContents);
-                    console.log(cartContents[expectedProduct]?.count);
-                    console.log(expectedProduct);
-                    console.log(expectedCount);
-
+                    console.log("Entered amount:", enteredAmount);
+                    console.log("Calculated total:", calculatedTotal);
+                    console.log("Cart contents:", cartContents);
+                    console.log("Expected products:", expectedProduct);
+                    console.log("Expected counts:", expectedCount);
                 }
 
                 // Clear cart
@@ -382,7 +408,7 @@
                 moneyInput.innerHTML = "0";
                 cartContents = {};
 
-                // Update customer
+                // Update customer reaction & make them leave
                 document.querySelectorAll(".customer-hamster").forEach(customer => {
                     const customerContainer = customer.closest("div.absolute.bottom-0");
                     const textBubble = customerContainer.querySelector("#customerRequest");
@@ -397,6 +423,7 @@
 
                 setTimeout(spawnCustomer, 2000);
             });
+
 
             // Ensure correct prices are used
             function getProductPrice(product) {
