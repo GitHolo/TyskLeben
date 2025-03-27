@@ -57,7 +57,7 @@
                     1€</button>
                 <button class="product bg-purple-300 px-3 py-2 rounded flex items-center justify-center"
                     data-product="BIER" data-price="1"><img src="./assets/svg/bier.svg" class="h-12 w-12" /> -
-                    1.25€</button>
+                    1€</button>
                 <button class="product bg-orange-300 px-3 py-2 rounded flex items-center justify-center"
                     data-product="TOMATEN" data-price="0.25"><img src="./assets/svg/tomaten.svg" class="h-12 w-12" /> -
                     0.25€</button>
@@ -274,8 +274,7 @@
             });
 
 
-            // Select cart area
-            const cartArea = document.getElementById("cartArea");
+
 
             // Add event listener **once** to cartArea (event delegation)
             cartArea.addEventListener("click", function (event) {
@@ -291,20 +290,26 @@
             });
 
             // Loop through products and add event listener
+            let cartContents = {};
+
             document.querySelectorAll(".product").forEach((item, index) => {
+                cartArea = document.getElementById('cartArea');
                 item.addEventListener("click", function () {
                     const product = this.dataset.product;
                     const price = parseFloat(this.dataset.price);
-                    if (product === expectedProduct) {
-                        total += price;
-                        productCount++;
+
+                    // Add to cart only if it's the expected product
+                    if (cartContents[product]) {
+                        cartContents[product].count++;
+                    } else {
+                        cartContents[product] = { count: 1, price: price };
                     }
 
-                    // Create product div
                     const productDiv = document.createElement("div");
-                    productDiv.classList.add("absolute", "cart-product", "transition-transform", "duration-300", "ease-out", "scale-100"); // Added "cart-product" class
-                    productDiv.dataset.price = price; // Store price in dataset
-                    productDiv.id = `cart-product-${index}`; // Assign unique ID
+                    productDiv.classList.add("cart-product", "absolute", "transition-transform", "duration-300", "ease-out", "scale-100");
+                    productDiv.dataset.product = product;
+                    productDiv.dataset.price = price;
+                    productDiv.id = `cart-product-${index}`;
 
                     const [left, top] = getProductPosition();
                     productDiv.style.left = `${left}px`;
@@ -312,12 +317,20 @@
                     productDiv.innerHTML = `<img src="./assets/svg/${product.toLowerCase()}.svg" alt="${product}" class="w-12 h-12 cursor-pointer">`;
 
                     cartArea.appendChild(productDiv);
-
-                    setTimeout(() => {
-                        productDiv.classList.add("scale-100");
-                    }, 50);
-
                     bounceAround(productDiv);
+
+                    // Remove product when clicked
+                    productDiv.addEventListener("click", function () {
+                        cartArea.removeChild(productDiv);
+
+                        // Update cart contents
+                        if (cartContents[product]) {
+                            cartContents[product].count--;
+                            if (cartContents[product].count <= 0) {
+                                delete cartContents[product];
+                            }
+                        }
+                    });
                 });
             });
 
@@ -331,13 +344,16 @@
                 const enteredAmount = parseFloat(moneyInput.innerHTML);
                 let happy = false;
 
-                // Calculate total price dynamically from the cart
+                // Calculate total dynamically
                 let calculatedTotal = 0;
-                document.querySelectorAll(".cart-product").forEach(product => {
-                    calculatedTotal += parseFloat(product.dataset.price);
-                });
+                let cartProductCount = 0;
+                for (let product in cartContents) {
+                    calculatedTotal += cartContents[product].price * cartContents[product].count;
+                    cartProductCount += cartContents[product].count;
+                }
 
-                if (enteredAmount === calculatedTotal && productCount === expectedCount) {
+                // Ensure correct products & payment
+                if (enteredAmount === calculatedTotal && cartContents[expectedProduct]?.count === expectedCount) {
                     alert("Transaction Successful! Customer is happy.");
                     happy = true;
 
@@ -352,29 +368,30 @@
                     addMoneyAnimation(-0.25);
                     updateHeaderMoney(-0.25);
                     happy = false;
+                    console.log(enteredAmount);
+                    console.log(calculatedTotal);
+                    console.log(cartContents);
+                    console.log(cartContents[expectedProduct]?.count);
+                    console.log(expectedProduct);
+                    console.log(expectedCount);
+
                 }
 
                 // Clear cart
-                total = 0;
                 cartArea.innerHTML = "";
                 moneyInput.innerHTML = "0";
-                productCount = 0;
+                cartContents = {};
 
-                // Update customer interaction
+                // Update customer
                 document.querySelectorAll(".customer-hamster").forEach(customer => {
                     const customerContainer = customer.closest("div.absolute.bottom-0");
-
-                    // Get the text bubble and change its content
                     const textBubble = customerContainer.querySelector("#customerRequest");
                     textBubble.innerHTML = happy
                         ? '<span class="text-green-600">' + (Math.random() > 0.5 ? "Danke!" : "Auf Wiedersehen!") + '</span>'
                         : '<span class="text-red-600">' + (Math.random() > 0.5 ? "Schade!" : "NEINN!!") + '</span>';
 
-                    // Move the customer slowly to the right
                     customerContainer.style.transition = "left 1.5s ease-out";
-                    customerContainer.style.left = "100%"; // Moves them out of the screen
-
-                    // Remove customer after animation
+                    customerContainer.style.left = "100%";
                     setTimeout(() => customerContainer.remove(), 1500);
                 });
 
@@ -384,9 +401,8 @@
             // Ensure correct prices are used
             function getProductPrice(product) {
                 const prices = { "BROT": 2, "MILCH": 1.5, "EI": 0.5, "BANANEN": 1, "BIER": 1.25, "TOMATEN": 0.25 };
-                return prices[product] || 0;
+                return prices[product.trim().toUpperCase()] || 0;
             }
-
             // Correct spawn timing
             setTimeout(spawnCustomer, 1000);
 
