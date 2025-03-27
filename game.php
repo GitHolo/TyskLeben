@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tysk Leben - Shop Game</title>
+    <title>Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="styles/index.css" rel="stylesheet">
     <script src="./assets/js/bounceAround.js"></script>
@@ -274,7 +274,24 @@
             });
 
 
-            document.querySelectorAll(".product").forEach(item => {
+            // Select cart area
+            const cartArea = document.getElementById("cartArea");
+
+            // Add event listener **once** to cartArea (event delegation)
+            cartArea.addEventListener("click", function (event) {
+                const clickedProduct = event.target.closest(".cart-product"); // Check if clicked item is a cart product
+                if (clickedProduct) {
+                    const price = parseFloat(clickedProduct.dataset.price); // Retrieve price from dataset
+                    cartArea.removeChild(clickedProduct);
+                    total -= price;
+                    productCount--;
+                } else {
+                    console.log("oop");
+                }
+            });
+
+            // Loop through products and add event listener
+            document.querySelectorAll(".product").forEach((item, index) => {
                 item.addEventListener("click", function () {
                     const product = this.dataset.product;
                     const price = parseFloat(this.dataset.price);
@@ -283,17 +300,20 @@
                         productCount++;
                     }
 
+                    // Create product div
                     const productDiv = document.createElement("div");
-                    productDiv.classList.add("absolute", "transition-transform", "duration-300", "ease-out", "opacity-0", "scale-50");
+                    productDiv.classList.add("absolute", "cart-product", "transition-transform", "duration-300", "ease-out", "scale-100"); // Added "cart-product" class
+                    productDiv.dataset.price = price; // Store price in dataset
+                    productDiv.id = `cart-product-${index}`; // Assign unique ID
+
                     const [left, top] = getProductPosition();
                     productDiv.style.left = `${left}px`;
                     productDiv.style.top = `${top}px`;
-                    productDiv.innerHTML = `<img src="./assets/svg/${product.toLowerCase()}.svg" alt="${product}" class="w-12 h-12">`;
+                    productDiv.innerHTML = `<img src="./assets/svg/${product.toLowerCase()}.svg" alt="${product}" class="w-12 h-12 cursor-pointer">`;
 
                     cartArea.appendChild(productDiv);
 
                     setTimeout(() => {
-                        productDiv.classList.remove("opacity-0", "scale-50");
                         productDiv.classList.add("scale-100");
                     }, 50);
 
@@ -301,20 +321,28 @@
                 });
             });
 
-            // Function to make products bounce randomly
 
 
 
+
+            // Checkout
             checkoutButton.addEventListener("click", function () {
                 const moneyInput = document.getElementById("moneyInput");
                 const enteredAmount = parseFloat(moneyInput.innerHTML);
                 let happy = false;
 
-                if (enteredAmount === expectedTotal && productCount === expectedCount) {
+                // Calculate total price dynamically from the cart
+                let calculatedTotal = 0;
+                document.querySelectorAll(".cart-product").forEach(product => {
+                    calculatedTotal += parseFloat(product.dataset.price);
+                });
+
+                if (enteredAmount === calculatedTotal && productCount === expectedCount) {
                     alert("Transaction Successful! Customer is happy.");
                     happy = true;
-                    lastTransactionAmount = enteredAmount * 0.13;
-                    cash = Math.round(lastTransactionAmount, 2);
+
+                    lastTransactionAmount = (enteredAmount * 0.13).toFixed(2);
+                    let cash = parseFloat(lastTransactionAmount);
                     updateMoneyInDB(cash);
                     addMoneyAnimation(cash);
                     updateHeaderMoney(cash);
@@ -326,14 +354,13 @@
                     happy = false;
                 }
 
+                // Clear cart
                 total = 0;
-                while (cartArea.firstChild) {
-                    cartArea.removeChild(cartArea.firstChild);
-                }
-
+                cartArea.innerHTML = "";
                 moneyInput.innerHTML = "0";
                 productCount = 0;
 
+                // Update customer interaction
                 document.querySelectorAll(".customer-hamster").forEach(customer => {
                     const customerContainer = customer.closest("div.absolute.bottom-0");
 
@@ -354,12 +381,15 @@
                 setTimeout(spawnCustomer, 2000);
             });
 
-
+            // Ensure correct prices are used
             function getProductPrice(product) {
                 const prices = { "BROT": 2, "MILCH": 1.5, "EI": 0.5, "BANANEN": 1, "BIER": 1.25, "TOMATEN": 0.25 };
                 return prices[product] || 0;
             }
-            setTimeout(spawnCustomer(), 1000);
+
+            // Correct spawn timing
+            setTimeout(spawnCustomer, 1000);
+
 
             function addMoneyAnimation(amount) {
                 const headerMoney = document.querySelector("header div span.font-bold");
