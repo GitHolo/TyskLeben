@@ -1,34 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <!-- Link to external CSS for styling the login page -->
-    <link href="styles/login.css" rel="stylesheet" />
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="shortcut icon" type="image/x-icon" href="./images/papas-pizzeria.jpg">
 </head>
 
-<body style="flex-direction: column; display: flex;">
-    <h1>Welcome to Tysk Leben!</h1>
-    <div class="login-box">
-        <h2>Login</h2>
-        <!-- Login form to submit email and password -->
-        <form method="post" action="">
-            <input type="text" name="login" placeholder="Email or Login" required><br>
-            <div id="email-error" style="color: red;"></div>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <input type="submit" name="submit" value="Login">
+<body class="flex flex-col items-center justify-center h-screen bg-gray-100 p-4">
+    <h1 class="text-2xl font-bold mb-6">Welcome to Tysk Leben!</h1>
+    <div class="w-80 p-6 bg-white border border-gray-300 rounded-lg shadow-lg">
+        <h2 class="text-xl font-semibold mb-4">Login</h2>
+        <form method="post" action="" class="space-y-4">
+            <input type="text" name="login" placeholder="Email or Login" required
+                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div id="email-error" class="text-red-500 text-sm"></div>
+            <input type="password" name="password" placeholder="Password" required
+                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="submit" name="submit" value="Login"
+                class="w-full p-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600">
         </form>
         <br>
-        <!-- Button to navigate to the registration page -->
-        <form style="justify-content: center; display: flex;" action="register.php" method="post">
-            <input style="width: 60%;" type="submit" value="Go to Register">
+        <form action="register.php" method="post" class="flex justify-center">
+            <input type="submit" value="Go to Register"
+                class="w-3/5 p-2 bg-gray-500 text-white rounded-md cursor-pointer hover:bg-gray-600">
         </form>
         <br>
-        <!-- Button to navigate to the home page -->
-        - <form style="justify-content: center; display: flex;" action="index.php" method="post">
-            <input style="width: 40%;" type="submit" value="Home">
+        <form action="index.php" method="post" class="flex justify-center">
+            <input type="submit" value="Home"
+                class="w-2/5 p-2 bg-gray-700 text-white rounded-md cursor-pointer hover:bg-gray-800">
         </form>
     </div>
 </body>
