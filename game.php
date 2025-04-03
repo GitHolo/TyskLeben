@@ -26,6 +26,22 @@
 
     // Get user's hamster
     require "./api/get_hamster.php";
+    // Fetch the user's equipped hat from the user_hats table and join with the hats table to get the image URL
+    $query = "
+SELECT h.image_url 
+FROM user_hats uh 
+JOIN hats h ON uh.hat_id = h.hat_id 
+WHERE uh.user_id = '$user_ID' AND uh.equipped = '1'
+LIMIT 1
+";
+    $result = $conn->query($query);
+    $hat_image = null;
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $hat_image = str_replace("-cropped", "", $row['image_url']); // Remove "-cropped" from the image URL
+    
+    }
     include "./assets/site/header.php";
     ?>
 

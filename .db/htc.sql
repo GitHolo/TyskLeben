@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2025 at 03:23 PM
+-- Generation Time: Apr 03, 2025 at 08:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,7 @@ CREATE TABLE `game` (
 --
 
 INSERT INTO `game` (`user_ID`, `money`, `food`) VALUES
-(18, 999999.00, 999999),
+(18, 29.84, 999999),
 (22, 100.00, 100);
 
 -- --------------------------------------------------------
@@ -67,6 +67,30 @@ INSERT INTO `hamsters` (`user_id`, `color1`, `color2`, `shadow1`, `shadow2`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hats`
+--
+
+CREATE TABLE `hats` (
+  `hat_id` int(11) NOT NULL,
+  `hat_name` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  `image_url` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hats`
+--
+
+INSERT INTO `hats` (`hat_id`, `hat_name`, `price`, `image_url`) VALUES
+(1, 'Bowler', 15, './assets/svg/bowler-cropped.svg'),
+(2, 'Cowboy', 12, './assets/svg/cowboy-cropped.svg'),
+(3, 'Fedora', 20, './assets/svg/fedora-cropped.svg'),
+(4, 'Fez', 10, './assets/svg/fez-cropped.svg'),
+(5, 'Newsboy', 15, './assets/svg/newsboy-cropped.svg');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `login`
 --
 
@@ -86,6 +110,17 @@ INSERT INTO `login` (`user_ID`, `login`, `email`, `password`, `createDate`) VALU
 (18, 'admin', 'admin@admin.com', '$2y$10$RstZaM9gYVwe9vZ.K6eplOeiY.b1DfL3F1njlqC3ozOdOGIntmqHm', '2025-03-10 21:26:50'),
 (22, 'admin2', 'admin2@admin.com', '$2y$10$zWh85FTyUE04UB2LGfDXS.3Sd4T7SteukahKz9VgXzzdKo2Y7x3QC', '2025-03-16 21:09:21');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_hats`
+--
+
+CREATE TABLE `user_hats` (
+  `user_id` int(11) DEFAULT NULL,
+  `hat_id` tinyint(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -95,6 +130,12 @@ INSERT INTO `login` (`user_ID`, `login`, `email`, `password`, `createDate`) VALU
 --
 ALTER TABLE `hamsters`
   ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `hats`
+--
+ALTER TABLE `hats`
+  ADD PRIMARY KEY (`hat_id`);
 
 --
 -- Indexes for table `login`
@@ -111,6 +152,12 @@ ALTER TABLE `login`
 --
 ALTER TABLE `hamsters`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `hats`
+--
+ALTER TABLE `hats`
+  MODIFY `hat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `login`

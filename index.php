@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tysk Leben</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-
-</head>
-
 <?php
 require "config.php"; // Include database connection
 
@@ -25,24 +14,60 @@ require "./api/get_currency.php";
 
 // Get user's hamster
 require "./api/get_hamster.php";
+
+// Fetch the user's equipped hat from the user_hats table and join with the hats table to get the image URL
+$query = "
+    SELECT h.image_url 
+    FROM user_hats uh 
+    JOIN hats h ON uh.hat_id = h.hat_id 
+    WHERE uh.user_id = '$user_ID' AND uh.equipped = '1'
+    LIMIT 1
+";
+$result = $conn->query($query);
+$hat_image = null;
+
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $hat_image = str_replace("-cropped", "", $row['image_url']); // Remove "-cropped" from the image URL
+
+}
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tysk Leben</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
 <body class="bg-gray-100 min-h-screen flex flex-col items-center bg-[url(./assets/svg/bg.svg)] bg-cover">
     <!-- Header -->
     <?php include './assets/site/header.php'; ?>
 
     <!-- Main Content -->
-    <main class="w-full max-w-md bg-white p-6 rounded-lg shadow-md mt-20 text-center">
+    <main class="w-full max-w-xl bg-white p-6 rounded-lg shadow-md mt-20 text-center">
         <h1 class="text-2xl font-bold mb-4">Home</h1>
         <p class="text-lg">Money: 💰 <span class="font-bold"><?php echo $money; ?></span></p>
         <p class="text-lg">Food: 🍎 <span class="font-bold"><?php echo $food; ?></span></p>
 
-        <!-- Hamster SVG -->
-        <div class="mt-6 flex justify-center">
+        <!-- Hamster and Hat Container -->
+        <div class="mt-6 flex justify-center relative">
+            <!-- Hamster SVG -->
             <object id="hamsterPreview" type="image/svg+xml" data="./assets/svg/hamster.svg" width="480"
                 height="480"></object>
+
+            <!-- Hat (positioned above the hamster) -->
+            <?php if ($hat_image): ?>
+                <img id="hatPreview" src="<?php echo htmlspecialchars($hat_image) . '?t=' . time(); ?>" alt="Hat"
+                    class="absolute justify-self-center self-center h-[420px] w-[460px]">
+            <?php endif; ?>
         </div>
+
         <a href="./game.php" class="bg-blue-500 text-white px-4 py-2 rounded">Go to work</a>
+
         <script>
             function darkenColor(hex, factor = 0.8) {
                 let r = parseInt(hex.substring(1, 3), 16) * factor;
@@ -74,8 +99,6 @@ require "./api/get_hamster.php";
                         let el = svgHamster.getElementById(id);
                         if (el) el.setAttribute("fill", color2);
                     });
-
-
                 }
             });
         </script>

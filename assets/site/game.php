@@ -6,6 +6,10 @@
     <div class="mt-6 flex justify-center">
         <object id="hamsterPreview" type="image/svg+xml" data="./assets/svg/hamster.svg" width="200"
             height="200"></object>
+        <?php if ($hat_image): ?>
+            <img id="hatPreview" src="<?php echo htmlspecialchars($hat_image) . '?t=' . time(); ?>" alt="Hat"
+                class="absolute justify-self-center self-center h-[180px] w-[200px]">
+        <?php endif; ?>
     </div>
 
     <script type="text/javascript">
