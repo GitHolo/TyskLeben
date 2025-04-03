@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tysk Leben</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="styles/index.css" rel="stylesheet">
+
 </head>
 
 <?php
@@ -27,7 +27,7 @@ require "./api/get_currency.php";
 require "./api/get_hamster.php";
 ?>
 
-<body class="bg-gray-100 min-h-screen flex flex-col items-center">
+<body class="bg-gray-100 min-h-screen flex flex-col items-center bg-[url(./assets/svg/bg.svg)] bg-cover">
     <!-- Header -->
     <?php include './assets/site/header.php'; ?>
 

@@ -5,7 +5,7 @@
         <span class="font-bold">🍎 <?php echo $food; ?></span>
     </div>
     <div id="hContainer" class="flex space-x-4 items-center">
-        <a href="#" class="hover:text-blue-500">Shop</a>
+        <a href="./shop.php" class="hover:text-blue-500">Shop</a>
         <a href="#" class="hover:text-blue-500">Edit</a>
         <a href="logout.php">
             <img src="./assets/svg/logout.svg" alt="Logout" class="w-6 h-6 hover:opacity-75">

@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="styles/index.css" rel="stylesheet">
     <script src="./assets/js/bounceAround.js"></script>
 </head>
 
-<body class="bg-gray-100 flex flex-col items-center min-h-screen">
+<body class="bg-gray-100 flex flex-col items-center min-h-screen bg-[url(./assets/svg/bg.svg)] bg-cover">
     <?php
     require "config.php"; // Include database connection
     
@@ -30,11 +29,11 @@
     include "./assets/site/header.php";
     ?>
 
-    <main class="relative w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-20 text-center">
+    <main class="relative w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-20 text-center h-[1050px]">
         <h1 class="text-2xl font-bold mb-4">Cashier</h1>
         <?php include './assets/site/game.php'; ?>
         <section class="flex justify-around">
-            <button id=" openBook" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">Open Product Book</button>
+            <button id="openBook" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">Open Product Book</button>
             <button id="openRegister" class="bg-green-500 text-white px-4 py-2 rounded mb-4">Open Cash Register</button>
 
 
@@ -98,36 +97,100 @@
             <!-- Close Register -->
             <button id="closeRegister" class="w-full mt-3 bg-red-600 p-3 rounded">Close Register</button>
         </div>
+    </main>
+    <audio id="buttonClickSound" src="./assets/sounds/beep.mp3"></audio>
+    <audio id="checkoutSuccessSound" src="./assets/sounds/checkout_success.mp3"></audio>
+    <audio id="checkoutFailSound" src="./assets/sounds/checkout_fail.wav"></audio>
+    <audio id="registerOpenSound" src="./assets/sounds/open_cash.mp3"></audio>
+    <audio id="registerCloseSound" src="./assets/sounds/close_cash.mp3"></audio>
+    <audio id="bookOpenSound" src="./assets/sounds/book_open.mp3"></audio>
+    <audio id="bookCloseSound" src="./assets/sounds/book_close.mp3"></audio>
+    <audio id="productClick" src="./assets/sounds/select_product.mp3"></audio>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const moneyInput = document.getElementById("moneyInput");
-                const calculatorButtons = document.querySelectorAll(".calculator-button");
+    <script>
+        // Load audio elements
+        const buttonClickSound = document.getElementById("buttonClickSound");
+        const checkoutSuccessSound = document.getElementById("checkoutSuccessSound");
+        const checkoutFailSound = document.getElementById("checkoutFailSound");
+        const registerOpenSound = document.getElementById("registerOpenSound");
+        const registerCloseSound = document.getElementById("registerCloseSound");
+        const bookOpenSound = document.getElementById("bookOpenSound");
+        const bookCloseSound = document.getElementById("bookCloseSound");
+        const productClick = document.getElementById("productClick");
 
-                calculatorButtons.forEach(button => {
-                    button.addEventListener("click", function () {
-                        const buttonValue = this.dataset.value;
 
-                        if (buttonValue === "C") {
-                            moneyInput.textContent = "0";
-                        } else if (buttonValue === "←") {
-                            moneyInput.textContent = moneyInput.textContent.slice(0, -1) || "0";
-                        } else {
+        // Play sound function
+        function playSound(sound) {
+            sound.currentTime = 0;  // Restart sound if it's already playing
+            sound.play();
+        }
+        // Loop through products and add event listener
+        let cartContents = {};
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const moneyInput = document.getElementById("moneyInput");
+            const calculatorButtons = document.querySelectorAll(".calculator-button");
+            const checkoutButton = document.getElementById("checkoutButton");
+            const closeRegisterButton = document.getElementById("closeRegister");
+            const openBookButton = document.getElementById("openBook");
+            const closeBookButton = document.getElementById("closeBook");
+            const productButtons = document.querySelectorAll(".product");
+
+
+
+            // Add sound to calculator buttons
+            calculatorButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    playSound(buttonClickSound);
+
+                    const buttonValue = this.dataset.value;
+
+                    if (buttonValue === "C") {
+                        moneyInput.textContent = "0";
+                    } else if (buttonValue === "←") {
+                        moneyInput.textContent = moneyInput.textContent.slice(0, -1) || "0";
+                    } else {
+                        if (moneyInput.textContent.length < 10) {
                             if (moneyInput.textContent === "0") moneyInput.textContent = "";
                             moneyInput.textContent += buttonValue;
                         }
-                    });
+                    }
                 });
             });
-        </script>
-    </main>
-    <script>
+            productButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    playSound(productClick);
+                });
+            });
+
+            openBookButton.addEventListener("click", function () {
+                playSound(bookOpenSound);
+            });
+            closeBookButton.addEventListener("click", function () {
+                playSound(bookCloseSound);
+            });
+
+            // Add sound to checkout button
+            checkoutButton.addEventListener("click", function () {
+                const enteredAmount = parseFloat(moneyInput.innerHTML);
+            });
+
+            // Add sound to open/close register
+            document.getElementById("openRegister").addEventListener("click", function () {
+                playSound(registerOpenSound);
+            });
+
+            closeRegisterButton.addEventListener("click", function () {
+                playSound(registerCloseSound);
+            });
+        });
+
         document.addEventListener("DOMContentLoaded", function () {
             let lastTransactionAmount = 0;
             const openRegister = document.getElementById("openRegister");
             const closeRegister = document.getElementById("closeRegister");
             const checkoutSection = document.getElementById("checkout");
-            const openBook = document.querySelector("button[id=' openBook']");
+            const openBook = document.querySelector("button[id='openBook']");
             const closeBook = document.getElementById("closeBook");
             const productBook = document.getElementById("productBook");
             const cart = document.getElementById("cart");
@@ -311,8 +374,6 @@
                 }
             });
 
-            // Loop through products and add event listener
-            let cartContents = {};
 
             document.querySelectorAll(".product").forEach((item, index) => {
                 cartArea = document.getElementById('cartArea');
@@ -390,6 +451,7 @@
                     updateMoneyInDB(cash);
                     addMoneyAnimation(cash);
                     updateHeaderMoney(cash);
+                    playSound(checkoutSuccessSound);
                 } else {
                     alert("Incorrect order or payment! Try again.");
                     updateMoneyInDB(-0.25);
@@ -401,6 +463,7 @@
                     console.log("Cart contents:", cartContents);
                     console.log("Expected products:", expectedProduct);
                     console.log("Expected counts:", expectedCount);
+                    playSound(checkoutFailSound);
                 }
 
                 // Clear cart
