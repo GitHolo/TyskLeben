@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2025 at 08:15 PM
+-- Generation Time: Apr 10, 2025 at 09:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,7 @@ CREATE TABLE `game` (
 --
 
 INSERT INTO `game` (`user_ID`, `money`, `food`) VALUES
-(18, 29.84, 999999),
+(18, 1257.07, 100),
 (22, 100.00, 100);
 
 -- --------------------------------------------------------
@@ -82,11 +82,11 @@ CREATE TABLE `hats` (
 --
 
 INSERT INTO `hats` (`hat_id`, `hat_name`, `price`, `image_url`) VALUES
-(1, 'Bowler', 15, './assets/svg/bowler-cropped.svg'),
-(2, 'Cowboy', 12, './assets/svg/cowboy-cropped.svg'),
-(3, 'Fedora', 20, './assets/svg/fedora-cropped.svg'),
-(4, 'Fez', 10, './assets/svg/fez-cropped.svg'),
-(5, 'Newsboy', 15, './assets/svg/newsboy-cropped.svg');
+(1, 'Bowler', 150, './assets/svg/bowler-cropped.svg'),
+(2, 'Cowboy', 120, './assets/svg/cowboy-cropped.svg'),
+(3, 'Fedora', 200, './assets/svg/fedora-cropped.svg'),
+(4, 'Fez', 100, './assets/svg/fez-cropped.svg'),
+(5, 'Newsboy', 150, './assets/svg/newsboy-cropped.svg');
 
 -- --------------------------------------------------------
 
@@ -107,7 +107,7 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`user_ID`, `login`, `email`, `password`, `createDate`) VALUES
-(18, 'admin', 'admin@admin.com', '$2y$10$RstZaM9gYVwe9vZ.K6eplOeiY.b1DfL3F1njlqC3ozOdOGIntmqHm', '2025-03-10 21:26:50'),
+(1, 'admin', 'admin@admin.com', '$2y$10$RstZaM9gYVwe9vZ.K6eplOeiY.b1DfL3F1njlqC3ozOdOGIntmqHm', '2025-03-10 21:26:50'),
 (22, 'admin2', 'admin2@admin.com', '$2y$10$zWh85FTyUE04UB2LGfDXS.3Sd4T7SteukahKz9VgXzzdKo2Y7x3QC', '2025-03-16 21:09:21');
 
 -- --------------------------------------------------------
@@ -118,8 +118,18 @@ INSERT INTO `login` (`user_ID`, `login`, `email`, `password`, `createDate`) VALU
 
 CREATE TABLE `user_hats` (
   `user_id` int(11) DEFAULT NULL,
-  `hat_id` tinyint(255) NOT NULL
+  `hat_id` tinyint(255) NOT NULL,
+  `equipped` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_hats`
+--
+
+INSERT INTO `user_hats` (`user_id`, `hat_id`, `equipped`) VALUES
+(18, 5, 1),
+(18, 3, 0),
+(18, 4, 0);
 
 --
 -- Indexes for dumped tables
