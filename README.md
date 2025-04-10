@@ -10,7 +10,7 @@ Welcome to **Tysk Leben**, a chaotic little hamster life simulator where your go
 
 ## 📺 Trailer
 
-[![Watch the Trailer](https://img.youtube.com/vi/BsF-OsAfoZk/0.jpg)](https://youtu.be/BsF-OsAfoZk)
+[![Watch the Trailer]](https://youtu.be/BsF-OsAfoZk)
 
 > *"He trained in the shadows. They mocked him. Now he buys seeds... and wears the top hat of destiny."*  
 > — A totally real reviewer
