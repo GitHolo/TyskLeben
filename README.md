@@ -10,7 +10,7 @@ Welcome to **Tysk Leben**, a chaotic little hamster life simulator where your go
 
 ## 📺 Trailer
 
-[![Watch the Trailer]](https://youtu.be/BsF-OsAfoZk)
+[![Watch the Trailer](https://img.youtube.com/vi/BsF-OsAfoZk/0.jpg)](https://www.youtube.com/watch?v=BsF-OsAfoZk)
 
 > *"He trained in the shadows. They mocked him. Now he buys seeds... and wears the top hat of destiny."*  
 > — A totally real reviewer
@@ -19,20 +19,20 @@ Welcome to **Tysk Leben**, a chaotic little hamster life simulator where your go
 
 ## 🧠 Features
 
-- 🛍️ Dynamic Shop (buy food and hats for your hamster)
-- 🧢 Cosmetic items for your hamster (yes, they stack and yes, it’s funny)
-- 🍞 Basic needs system (money, food, survival)
-- 💼 Work to survive: your hamster is employed
+- 🛍️ Dynamic Shop (buy food and hats for your hamster)  
+- 🧢 Cosmetic items for your hamster (yes, they stack and yes, it’s funny)  
+- 🍞 Basic needs system (money, food, survival)  
+- 💼 Work to survive: your hamster is employed  
 - 🖼️ All visuals are hand-crafted SVGs — some so bad they became art
 
 ---
 
 ## ⚙️ Tech Stack
 
-- PHP (server logic)
-- MySQL (data handling)
-- JavaScript (interactivity)
-- TailwindCSS (design)
+- PHP (server logic)  
+- MySQL (data handling)  
+- JavaScript (interactivity)  
+- TailwindCSS (design)  
 - Pure SVGs for art
 
 ---
@@ -42,7 +42,13 @@ Welcome to **Tysk Leben**, a chaotic little hamster life simulator where your go
 1. Clone the repo  
 2. Set up a local server (XAMPP recommended)  
 3. Import the SQL dump (in `/database`)  
-4. Start feeding and styling your hamster  
+4. Start feeding and styling your hamster
+
+---
+
+## 🕹️ Play the Game
+
+👉 [Play it now](http://tyskleben.great-site.net/)
 
 ---
 
