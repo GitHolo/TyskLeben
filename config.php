@@ -5,7 +5,7 @@ session_start();
 // Database connection parameters
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "Pierogi00";
 $dbname = "htc";
 
 // Create a new connection to the database
