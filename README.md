@@ -41,7 +41,7 @@ Welcome to **Tysk Leben**, a chaotic little hamster life simulator where your go
 
 1. Clone the repo  
 2. Set up a local server (XAMPP recommended)  
-3. Import the SQL dump (in `/database`)  
+3. Import the SQL dump (in `/.db`)  
 4. Start feeding and styling your hamster
 
 ---
