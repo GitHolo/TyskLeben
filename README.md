@@ -55,9 +55,10 @@ Welcome to **Tysk Leben**, a chaotic little hamster life simulator where your go
 ## ✍️ Author
 
 Made by **Maksymilian Felczak** with love, code, and questionable hamster anatomy.
-
+Food and Hats from [Freepik](https://www.freepik.com/)
 ---
 
 ## 📢 License
 
-MIT License. Use it, remix it, give your own hamster a weird life too.
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+ 
