@@ -257,6 +257,14 @@ LIMIT 1
 
             function spawnCustomer() {
                 const foods = ["BROT", "MILCH", "EI", "BANANEN", "BIER", "TOMATEN"];
+                const foodGenders = {
+                    "BROT": "n",      // das Brot
+                    "MILCH": "f",     // die Milch
+                    "EI": "n",        // das Ei
+                    "BANANEN": "f",   // die Banane (plural, but treating singular here)
+                    "BIER": "n",      // das Bier
+                    "TOMATEN": "f"    // die Tomate (plural form shown, but treating as singular item here)
+                };
                 const weights = [0.4, 0.25, 0.15, 0.08, 0.05, 0.03, 0.02, 0.01, 0.005, 0.005];
                 const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                 const quantityWords = ["EINS", "ZWEI", "DREI", "VIER", "FÜNF", "SECHS", "SIEBEN", "ACHT", "NEUN", "ZEHN"];
@@ -293,10 +301,18 @@ LIMIT 1
                 this.expectedTotal = expectedTotal;
 
                 // Generate request text
-                let requestText = orderedProducts.map(item =>
-                    `<span class="text-sky-500">${quantityWords[item.count - 1]}</span> 
-        <span class="text-red-600">${item.product}</span>`
-                ).join(" und ");
+                let requestText = orderedProducts.map(item => {
+                    let quantityText = quantityWords[item.count - 1];
+
+                    // If quantity is 1, apply grammatical gender rules
+                    if (item.count === 1) {
+                        const gender = foodGenders[item.product];
+                        quantityText = gender === "f" ? "EINE" : "EIN";
+                    }
+
+                    return `<span class="text-sky-500">${quantityText}</span> 
+            <span class="text-red-600">${item.product}</span>`;
+                }).join(" und ");
 
                 const { color1, color2 } = getRandomColorScheme();
 
