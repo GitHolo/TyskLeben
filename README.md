@@ -1,64 +1,34 @@
-# 🐹 Tysk Leben - Hamster Life Simulator
+# tysk leben - hamster life simulator
 
-Welcome to **Tysk Leben**, a chaotic little hamster life simulator where your goal is to keep your pet alive, stylish, and (hopefully) employed.
+this is a little hamster life simulator where your only goal is to keep your pet alive, stylish, and employed. it's made in php, mysql, and tailwind. no frameworks, just raw code. it also features a lot of hats.
 
-🎮 Made in PHP, MySQL, and Tailwind CSS  
-💾 No frameworks, just raw code and hamster determination  
-👒 Featuring hats. So many hats.
+### trailer
+[![watch the trailer](https://img.youtube.com/vi/BsF-OsAfoZk/0.jpg)](https://www.youtube.com/watch?v=BsF-OsAfoZk)
+> "he trained in the shadows. they mocked him. now he buys seeds... and wears the top hat of destiny."
 
----
+### features
+- a shop to buy food and hats
+- cosmetic items that stack on top of each other
+- basic needs system for money and survival
+- your hamster has to work
+- all visuals are hand-crafted svgs. some look pretty bad but it became part of the art.
 
-## 📺 Trailer
+### tech stack
+- php (server logic)
+- mysql (database)
+- javascript (interactivity)
+- tailwindcss (design)
+- pure svgs
 
-[![Watch the Trailer](https://img.youtube.com/vi/BsF-OsAfoZk/0.jpg)](https://www.youtube.com/watch?v=BsF-OsAfoZk)
+### setup
+1. clone the repo
+2. set up a local server (xampp works fine)
+3. import the sql dump located in `/.db`
+4. run it
 
-> *"He trained in the shadows. They mocked him. Now he buys seeds... and wears the top hat of destiny."*  
-> — A totally real reviewer
+### play
+you can play it here: [tyskleben.great-site.net](http://tyskleben.great-site.net/)
 
----
-
-## 🧠 Features
-
-- 🛍️ Dynamic Shop (buy food and hats for your hamster)  
-- 🧢 Cosmetic items for your hamster (yes, they stack and yes, it’s funny)  
-- 🍞 Basic needs system (money, food, survival)  
-- 💼 Work to survive: your hamster is employed  
-- 🖼️ All visuals are hand-crafted SVGs — some so bad they became art
-
----
-
-## ⚙️ Tech Stack
-
-- PHP (server logic)  
-- MySQL (data handling)  
-- JavaScript (interactivity)  
-- TailwindCSS (design)  
-- Pure SVGs for art
-
----
-
-## 🚀 Getting Started
-
-1. Clone the repo  
-2. Set up a local server (XAMPP recommended)  
-3. Import the SQL dump (in `/.db`)  
-4. Start feeding and styling your hamster
-
----
-
-## 🕹️ Play the Game
-
-👉 [Play it now](http://tyskleben.great-site.net/)
-
----
-
-## ✍️ Author
-
-Made by **Maksymilian Felczak** with love, code, and questionable hamster anatomy.
-Food and Hats from [Freepik](https://www.freepik.com/)
----
-
-## 📢 License
-
-[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
- 
+### misc
+made by me. food and hats are from freepik.
+[![license: cc by-nc-sa 4.0](https://img.shields.io/badge/license-cc%20by--nc--sa%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
