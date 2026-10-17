@@ -27,7 +27,7 @@ this is a little hamster life simulator where your only goal is to keep your pet
 4. run it
 
 ### play
-you can play it here: [tyskleben.great-site.net](http://tyskleben.great-site.net/)
+you can play it here: NO LONGER WORKS
 
 ### misc
 made by me. food and hats are from freepik.
